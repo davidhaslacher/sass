@@ -17,9 +17,12 @@ def sass(data,CBAN,CBN,n_nulls)
         m x m ndarray : m: number of channels
         The covariance matrix of EEG calibration data with tACS
 
-    CBAN : numpy.ndarray
+    CBN : numpy.ndarray
         m x m ndarray : m: number of channels
         The covariance matrix of EEG calibration data without tACS
+
+    n_nulls : int
+        The number of artifact components to reject
 
     Returns
     -------
