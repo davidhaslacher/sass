@@ -2,7 +2,7 @@ import numpy as np
 from scipy import linalg
 
 
-def sass(data,CBAN,CBN,n_nulls)
+def sass(data,A,B,n_nulls)
 
     """
     Applies the Stimulation Artifact Source Separation to tACS-EEG data
@@ -13,11 +13,11 @@ def sass(data,CBAN,CBN,n_nulls)
         m x n ndarray : m: number of channels, n: number of samples
         The tACS-EEG data to be processed, bandpass filtered into the frequency band of interest
 
-    CBAN : numpy.ndarray
+    A : numpy.ndarray
         m x m ndarray : m: number of channels
         The covariance matrix of EEG calibration data with tACS
 
-    CBN : numpy.ndarray
+    B : numpy.ndarray
         m x m ndarray : m: number of channels
         The covariance matrix of EEG calibration data without tACS
 
@@ -31,7 +31,7 @@ def sass(data,CBAN,CBN,n_nulls)
         The processed tACS-EEG data
     """
 
-    eigen_values, eigen_vectors = linalg.eig(CBAN,CBN)
+    eigen_values, eigen_vectors = linalg.eig(A,B)
     eigen_values = eigen_values.real
     eigen_vectors = eigen_vectors.real
     ix = np.argsort(eigen_values)[::-1]
