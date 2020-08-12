@@ -1,8 +1,17 @@
 import numpy as np
 from scipy import linalg
 
+def find_n_nulls(A,B,D,M):
+    mses = []
+    for n_nulls in range(A.shape[0]):
+        DI = np.ones(M.shape[0])
+        DI[:n_nulls] = 0
+        DI = np.diag(DI)
+        P = M.dot(DI).dot(D)
+        mses.append(np.mean((np.diag(B)-np.diag(P.dot(A).dot(P.T)))**2))
+    return np.argmin(mses)
 
-def sass(data,A,B,n_nulls)
+def sass(data,A,B)
 
     """
     Applies the Stimulation Artifact Source Separation to tACS-EEG data
@@ -21,9 +30,6 @@ def sass(data,A,B,n_nulls)
         m x m ndarray : m: number of channels
         The covariance matrix of EEG calibration data without tACS
 
-    n_nulls : int
-        The number of artifact components to reject
-
     Returns
     -------
     cleaned_data : numpy.ndarray
@@ -37,6 +43,7 @@ def sass(data,A,B,n_nulls)
     ix = np.argsort(eigen_values)[::-1]
     D = eigen_vectors[:,ix].T
     M = linalg.pinv2(D)
+    n_nulls = find_n_nulls(A,B,D,M)
     DI = np.ones(M.shape[0])
     DI[:n_nulls] = 0
     DI = np.diag(DI)
