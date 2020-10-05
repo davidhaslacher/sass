@@ -11,7 +11,7 @@ def find_n_nulls(A,B,D,M):
         mses.append(np.mean((np.diag(B)-np.diag(P.dot(A).dot(P.T)))**2))
     return np.argmin(mses)
 
-def sass(data,A,B)
+def sass(data,A,B):
 
     """
     Applies the Stimulation Artifact Source Separation to tACS-EEG data
